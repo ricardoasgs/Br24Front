@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AppContainer from "../components/AppContainer";
-import ListCompanies from "../components/ListCompanies";
+import FormContacts from "../components/FormContacts";
 
-export default function HomeScreen() {
+export default function FormContactScreen() {
   return (
     <AppContainer>
-      <ListCompanies />
+      <FormContacts />
     </AppContainer>
   );
 }

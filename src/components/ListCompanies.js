@@ -1,54 +1,96 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { getCompany, deleteCompany } from "../actions/companyAction";
+import {
+  FaTrash,
+  FaPencilAlt,
+  FaMoneyBill,
+  FaAddressBook,
+} from "react-icons/fa";
+import { history } from "../config/helper";
 
 export default function ListCompanies() {
+  const [search, setSearch] = useState("");
+  const [companyFiltered, setCompanyFiltered] = useState([]);
+  const dispatch = useDispatch();
+  const companyState = useSelector((state) => state.companyReducer);
+  const { loading, companies } = companyState;
+
+  useEffect(() => {
+    dispatch(getCompany());
+  }, []);
+
+  useEffect(() => {
+    const companiesFiltered = companies.filter((company) =>
+      company.TITLE.toLowerCase().includes(search.toLowerCase())
+    );
+    setCompanyFiltered(companiesFiltered);
+  }, [search, companies]);
+
   return (
     <div>
-      {/* {loading ? (
+      {loading ? (
         <h1>CARREGANDO...</h1>
-      ) : ( */}
-      <Container>
-        <>
-          <Table>
-            <Header>
-              <Link to={{ pathname: "create", createCompany: true, id: null }}>
-                <Btn>Criar empresa</Btn>
-              </Link>
-
-              <SearchContainer>
-                <SearchInput
-                  type="text"
-                  placeholder="Pesquisar"
-                  // value={searchTerm}
-                  // onChange={handleSearch}
-                />
-              </SearchContainer>
-            </Header>
-
-            <TableHeader>
-              <ThItem>Empresa</ThItem>
-              <ThItem>Proprietário</ThItem>
-              <ThItem>Telefone</ThItem>
-              <ThItem>E-mail</ThItem>
-              <ThItem>Opções</ThItem>
-            </TableHeader>
-
-            {/* {searchResults.map((c) => (
-                <Link
-                  to={{ pathname: "create", createCompany: false, id: c.ID }}
-                >
-                  <Rows key={c.ID}>
-                    <Cell>{c.TITLE}</Cell>
-                    <Cell>{c.UF_CRM_1588901076}</Cell>
-                    <Cell>{c.EMAIL[0].VALUE}</Cell>
-                  </Rows>
+      ) : (
+        <Container>
+          <>
+            <Table>
+              <Header>
+                <Link to={"/company"}>
+                  <Btn>Criar empresa</Btn>
                 </Link>
-              ))} */}
-          </Table>
-        </>
-      </Container>
-      {/* )} */}
+
+                <SearchContainer>
+                  <SearchInput
+                    type="text"
+                    placeholder="Pesquisar"
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                  />
+                </SearchContainer>
+              </Header>
+
+              <TableHeader>
+                <ThItem>Empresa</ThItem>
+                <ThItem>Proprietário</ThItem>
+                <ThItem>Cpf/Cnpj</ThItem>
+                <ThItem>E-mail</ThItem>
+                <ThItem>Opções</ThItem>
+              </TableHeader>
+
+              {companyFiltered.map((company) => (
+                <Rows key={company.ID}>
+                  <Cell>{company.TITLE}</Cell>
+                  <Cell>{company.UF_CRM_1594236296415}</Cell>
+                  <Cell>{company.UF_CRM_1594236337871}</Cell>
+                  <Cell>{company.EMAIL[0].VALUE}</Cell>
+                  <Cell>
+                    <FaTrash
+                      onClick={() => {
+                        dispatch(deleteCompany(company.ID));
+                      }}
+                    />
+
+                    <Link to={{ pathname: `/company`, state: company.ID }}>
+                      <FaPencilAlt />
+                    </Link>
+                    <Link to={"/contact"}>
+                      <FaAddressBook />
+                    </Link>
+                    <Link to={""}>
+                      <FaMoneyBill />
+                    </Link>
+                  </Cell>
+                </Rows>
+              ))}
+            </Table>
+          </>
+        </Container>
+      )}
     </div>
   );
 }
@@ -110,12 +152,12 @@ const SearchInput = styled.input`
   width: 100%;
   padding: 8px;
   font-size: 18px;
-  border: none;
-  background: #6c757d;
+  border: 10px;
+  background: #fff;
   border-radius: 4px;
   &::placeholder {
     text-align: center;
-    color: #fff;
+    color: black;
   }
 `;
 
@@ -141,18 +183,14 @@ const Rows = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(68, 68, 68, 0.1);
+  border-top: 1px solid rgba(68, 68, 68, 0.1);
   text-decoration: none;
   &:hover {
-    background: #f0ddee;
-    font-weight: bolder;
-    border: none;
-    box-shadow: 0 3px rgba(68, 68, 68, 0.1);
   }
 `;
 
 const Cell = styled.div`
-  color: #363636;
+  color: #6c757d;
   display: flex;
   width: 100%;
   max-width: 300px;

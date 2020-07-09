@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 
 const NavBar = (props) => (
   <Nav>
-    <Logo>Br24</Logo>
-    <MainNav>
+    <Link to={"/"}>
+      <Logo>Br24</Logo>
+    </Link>
+    {/* <MainNav>
       <NavItem>1</NavItem>
       <NavItem>2</NavItem>
       <NavItem>3</NavItem>
-    </MainNav>
+    </MainNav> */}
   </Nav>
 );
 

@@ -1,14 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { getCompanyById, createCompany } from "../actions/companyAction";
 
-export default function FormCompany() {
+export default function FormCompany(props) {
+  console.log(props);
+  const [empresa, setEmpresa] = useState("");
+  const [proprietario, setProprietario] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [email, setEmail] = useState("");
+  const [cnpj, setCnpj] = useState("");
+  const dispatch = useDispatch();
+  const companyState = useSelector((state) => state.companyReducer);
+  const { loading, companies } = companyState;
+
+  useEffect(() => {
+    console.log(props);
+    if (props) dispatch(getCompanyById(props.id));
+  }, []);
+
+  const submit = () => {
+    dispatch(createCompany({ empresa, proprietario, cnpj, telefone, email }));
+  };
+
   return (
     <Container>
       <Header>
         <Title>Formulário Empresa</Title>
       </Header>
-      {/* <Hr /> */}
       <Container>
         <Article>
           <InputName>Empresa</InputName>
@@ -17,31 +36,52 @@ export default function FormCompany() {
               type="text"
               name="empresa"
               id="empresa"
-              // value={empresa}
-              // onChange={(e) => setEmpresa(e.target.value)}
+              value={empresa}
+              onChange={(e) => setEmpresa(e.target.value)}
             />
           </Name>
           <InputName>Nome do Proprietario</InputName>
           <Name>
-            <TitleInput type="text" name="nome" id="nome" />
+            <TitleInput
+              type="text"
+              name="proprietario"
+              id="proprietario"
+              value={proprietario}
+              onChange={(e) => setProprietario(e.target.value)}
+            />
           </Name>
           <InputName>Telefone</InputName>
           <Name>
-            <TitleInput type="text" name="telefone" id="telefone" />
+            <TitleInput
+              type="text"
+              name="telefone"
+              id="telefone"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+            />
           </Name>
           <InputName>E-mail</InputName>
           <Name>
-            <TitleInput type="text" name="email" id="email" />
+            <TitleInput
+              type="text"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Name>
           <InputName>CPF/CNPJ</InputName>
           <Name>
-            <TitleInput type="text" name="cpf" id="cpf" />
+            <TitleInput
+              type="text"
+              name="cnpj"
+              id="cnpj"
+              value={cnpj}
+              onChange={(e) => setCnpj(e.target.value)}
+            />
           </Name>
           <BtnContainer>
-            <Btn
-              type="button"
-              //   onClick={handleSave}
-            >
+            <Btn type="button" onClick={submit}>
               Salvar
             </Btn>
           </BtnContainer>
