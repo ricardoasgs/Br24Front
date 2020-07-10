@@ -52,7 +52,7 @@ export function getCompanyById(id) {
     axios
       .get(`${API_URL}/getCompanyById.php?id=${id}`)
       .then((response) => {
-        console.log(response);
+        console.log(response.data.result);
         dispatch({
           type: FETCH_COMPANY_SUCCESS,
           payload: response.data.result,

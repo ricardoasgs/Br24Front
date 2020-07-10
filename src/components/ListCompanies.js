@@ -20,7 +20,7 @@ export default function ListCompanies() {
 
   useEffect(() => {
     dispatch(getCompany());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const companiesFiltered = companies.filter((company) =>
@@ -38,10 +38,6 @@ export default function ListCompanies() {
           <>
             <Table>
               <Header>
-                <Link to={"/company"}>
-                  <Btn>Criar empresa</Btn>
-                </Link>
-
                 <SearchContainer>
                   <SearchInput
                     type="text"
@@ -75,18 +71,23 @@ export default function ListCompanies() {
                       }}
                     />
 
-                    <Link to={{ pathname: `/company`, state: company.ID }}>
+                    <Link to={{ pathname: `/company`, state: company }}>
                       <FaPencilAlt />
                     </Link>
-                    <Link to={"/contact"}>
+                    <Link to={{ pathname: `/contact`, state: company }}>
                       <FaAddressBook />
                     </Link>
-                    <Link to={""}>
+                    <Link to={{ pathname: `/`, state: company }}>
                       <FaMoneyBill />
                     </Link>
                   </Cell>
                 </Rows>
               ))}
+              <BtnContainer>
+                <Link to={"/company"}>
+                  <Btn>Criar empresa</Btn>
+                </Link>
+              </BtnContainer>
             </Table>
           </>
         </Container>
@@ -95,7 +96,7 @@ export default function ListCompanies() {
   );
 }
 
-export const Container = styled.div`
+const Container = styled.div`
   display: flex;
   width: 100%;
   padding: 0px;
@@ -105,12 +106,12 @@ export const Container = styled.div`
   margin-bottom: 80px;
 `;
 
-export const Table = styled.div`
+const Table = styled.div`
   display: flex;
   width: 100%;
   max-width: 90%;
   margin: 50px auto;
-  padding: 0px;
+  padding: 25px;
   background: #fff;
   border: 0;
   border-radius: 4px;
@@ -118,7 +119,7 @@ export const Table = styled.div`
   box-shadow: 2px 2px rgba(68, 68, 68, 0.1);
 `;
 
-export const Header = styled.div`
+const Header = styled.div`
   padding: 25px;
   display: flex;
   justify-content: space-between;
@@ -129,11 +130,12 @@ export const Header = styled.div`
   }
 `;
 
-export const Btn = styled.button`
+const Btn = styled.button`
   display: flex;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
+  margin-top: 25px;
   max-width: 300px;
   background: #343a40;
   color: white;
@@ -144,8 +146,15 @@ export const Btn = styled.button`
 
 const SearchContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
   width: 100%;
   max-width: 300px;
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 const SearchInput = styled.input`

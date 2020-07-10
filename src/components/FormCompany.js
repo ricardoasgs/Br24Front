@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { getCompanyById, createCompany } from "../actions/companyAction";
 
 export default function FormCompany(props) {
-  console.log(props);
   const [empresa, setEmpresa] = useState("");
   const [proprietario, setProprietario] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -12,12 +11,18 @@ export default function FormCompany(props) {
   const [cnpj, setCnpj] = useState("");
   const dispatch = useDispatch();
   const companyState = useSelector((state) => state.companyReducer);
-  const { loading, companies } = companyState;
+  const { loading, companies, company } = companyState;
 
   useEffect(() => {
-    console.log(props);
-    if (props) dispatch(getCompanyById(props.id));
-  }, []);
+    console.log(props.company);
+    if (props.company) {
+      setEmpresa(props.company.TITLE);
+      setProprietario(props.company.UF_CRM_1594236296415);
+      setTelefone(props.company.PHONE[0].VALUE);
+      setEmail(props.company.EMAIL[0].VALUE);
+      setCnpj(props.company.UF_CRM_1594236337871);
+    }
+  }, [props, dispatch]);
 
   const submit = () => {
     dispatch(createCompany({ empresa, proprietario, cnpj, telefone, email }));
