@@ -2,37 +2,40 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { getCompany, deleteCompany } from "../actions/companyAction";
-import {
-  FaTrash,
-  FaPencilAlt,
-  FaMoneyBill,
-  FaAddressBook,
-} from "react-icons/fa";
+import Loading from "./Loading";
+import { getContactById } from "../actions/companyAction";
+import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import { history } from "../config/helper";
 
-export default function ListContacts() {
+export default function ListContacts(props) {
   const [search, setSearch] = useState("");
-  const [companyFiltered, setCompanyFiltered] = useState([]);
+  const [contactFiltered, setContactFiltered] = useState([]);
   const dispatch = useDispatch();
   const companyState = useSelector((state) => state.companyReducer);
-  const { loading, companies } = companyState;
+  const { contacts, loading } = companyState;
 
   useEffect(() => {
-    dispatch(getCompany());
-  }, [dispatch]);
+    if (props.company) {
+      console.log(props);
+      dispatch(getContactById(props.company.ID));
+    } else {
+      history.push("/companies");
+    }
+  }, [dispatch, props]);
 
   useEffect(() => {
-    const companiesFiltered = companies.filter((company) =>
-      company.TITLE.toLowerCase().includes(search.toLowerCase())
+    const contactsFiltered = contacts.filter((contact) =>
+      contact.NAME.toLowerCase().includes(search.toLowerCase())
     );
-    setCompanyFiltered(companiesFiltered);
-  }, [search, companies]);
+    setContactFiltered(contactsFiltered);
+  }, [search, contacts]);
 
   return (
     <div>
       {loading ? (
-        <h1>CARREGANDO...</h1>
+        <Container>
+          <Loading />
+        </Container>
       ) : (
         <Container>
           <>
@@ -51,41 +54,33 @@ export default function ListContacts() {
               </Header>
 
               <TableHeader>
-                <ThItem>Empresa</ThItem>
-                <ThItem>Proprietário</ThItem>
-                <ThItem>Cpf/Cnpj</ThItem>
+                <ThItem>Nome</ThItem>
                 <ThItem>E-mail</ThItem>
+                <ThItem>Telefone</ThItem>
                 <ThItem>Opções</ThItem>
               </TableHeader>
 
-              {companyFiltered.map((company) => (
-                <Rows key={company.ID}>
-                  <Cell>{company.TITLE}</Cell>
-                  <Cell>{company.UF_CRM_1594236296415}</Cell>
-                  <Cell>{company.UF_CRM_1594236337871}</Cell>
-                  <Cell>{company.EMAIL[0].VALUE}</Cell>
+              {contactFiltered.map((contact) => (
+                <Rows key={contact.ID}>
+                  <Cell>{contact.NAME}</Cell>
+                  <Cell>{contact.PHONE[0].VALUE}</Cell>
+                  <Cell>{contact.EMAIL[0].VALUE}</Cell>
                   <Cell>
                     <FaTrash
-                      onClick={() => {
-                        dispatch(deleteCompany(company.ID));
-                      }}
+                    // onClick={() => {
+                    //   dispatch(deleteCompany(company.ID));
+                    // }}
                     />
 
-                    <Link to={{ pathname: `/company`, state: company }}>
+                    <Link to={{ pathname: `/createContact`, state: contact }}>
                       <FaPencilAlt />
-                    </Link>
-                    <Link to={{ pathname: `/contact`, state: company }}>
-                      <FaAddressBook />
-                    </Link>
-                    <Link to={{ pathname: `/`, state: company }}>
-                      <FaMoneyBill />
                     </Link>
                   </Cell>
                 </Rows>
               ))}
               <BtnContainer>
-                <Link to={"/company"}>
-                  <Btn>Criar empresa</Btn>
+                <Link to={"/createContact"}>
+                  <Btn>Criar contato</Btn>
                 </Link>
               </BtnContainer>
             </Table>

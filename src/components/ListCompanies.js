@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import Loading from "./Loading";
 import { getCompany, deleteCompany } from "../actions/companyAction";
 import {
   FaTrash,
@@ -9,7 +10,6 @@ import {
   FaMoneyBill,
   FaAddressBook,
 } from "react-icons/fa";
-import { history } from "../config/helper";
 
 export default function ListCompanies() {
   const [search, setSearch] = useState("");
@@ -29,75 +29,83 @@ export default function ListCompanies() {
     setCompanyFiltered(companiesFiltered);
   }, [search, companies]);
 
+  const renderRows = () => {
+    return companyFiltered.map((company) => (
+      <Rows key={company.ID}>
+        <Cell>{company.TITLE}</Cell>
+        <Cell>{company.UF_CRM_1594236296415}</Cell>
+        <Cell>{company.UF_CRM_1594236337871}</Cell>
+        <Cell>{company.EMAIL[0].VALUE}</Cell>
+        <Cell>
+          <FaTrash
+            onClick={() => {
+              dispatch(deleteCompany(company.ID));
+            }}
+          />
+
+          <Link to={{ pathname: `/createCompany`, state: company }}>
+            <FaPencilAlt />
+          </Link>
+          <Link to={{ pathname: `/contacts`, state: company }}>
+            <FaAddressBook />
+          </Link>
+          <Link to={{ pathname: `/`, state: company }}>
+            <FaMoneyBill />
+          </Link>
+        </Cell>
+      </Rows>
+    ));
+  };
+
   return (
     <div>
-      {loading ? (
-        <h1>CARREGANDO...</h1>
-      ) : (
-        <Container>
-          <>
-            <Table>
-              <Header>
-                <SearchContainer>
-                  <SearchInput
-                    type="text"
-                    placeholder="Pesquisar"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                    }}
-                  />
-                </SearchContainer>
-              </Header>
+      <Container>
+        <>
+          <Table>
+            <Header>
+              <h1></h1>
+              <ListTitle>Empresas</ListTitle>
+              <SearchContainer>
+                <SearchInput
+                  type="text"
+                  placeholder="Pesquisar"
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                />
+              </SearchContainer>
+            </Header>
 
-              <TableHeader>
-                <ThItem>Empresa</ThItem>
-                <ThItem>Proprietário</ThItem>
-                <ThItem>Cpf/Cnpj</ThItem>
-                <ThItem>E-mail</ThItem>
-                <ThItem>Opções</ThItem>
-              </TableHeader>
-
-              {companyFiltered.map((company) => (
-                <Rows key={company.ID}>
-                  <Cell>{company.TITLE}</Cell>
-                  <Cell>{company.UF_CRM_1594236296415}</Cell>
-                  <Cell>{company.UF_CRM_1594236337871}</Cell>
-                  <Cell>{company.EMAIL[0].VALUE}</Cell>
-                  <Cell>
-                    <FaTrash
-                      onClick={() => {
-                        dispatch(deleteCompany(company.ID));
-                      }}
-                    />
-
-                    <Link to={{ pathname: `/company`, state: company }}>
-                      <FaPencilAlt />
-                    </Link>
-                    <Link to={{ pathname: `/contact`, state: company }}>
-                      <FaAddressBook />
-                    </Link>
-                    <Link to={{ pathname: `/`, state: company }}>
-                      <FaMoneyBill />
-                    </Link>
-                  </Cell>
-                </Rows>
-              ))}
-              <BtnContainer>
-                <Link to={"/company"}>
-                  <Btn>Criar empresa</Btn>
-                </Link>
-              </BtnContainer>
-            </Table>
-          </>
-        </Container>
-      )}
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                <TableHeader>
+                  <ThItem>Proprietário</ThItem>
+                  <ThItem>Cpf/Cnpj</ThItem>
+                  <ThItem>E-mail</ThItem>
+                  <ThItem>Opções</ThItem>
+                </TableHeader>
+                {renderRows()}
+              </>
+            )}
+            <BtnContainer>
+              <Link to={"/createCompany"}>
+                <Btn>Criar empresa</Btn>
+              </Link>
+            </BtnContainer>
+          </Table>
+        </>
+      </Container>
     </div>
   );
 }
 
 const Container = styled.div`
   display: flex;
+  justify-content: center
+  align-items: center
   width: 100%;
   padding: 0px;
   border: 0;
@@ -117,10 +125,13 @@ const Table = styled.div`
   border-radius: 4px;
   flex-direction: column;
   box-shadow: 2px 2px rgba(68, 68, 68, 0.1);
+  a {
+    text-decoration: none;
+  }
 `;
 
 const Header = styled.div`
-  padding: 25px;
+  padding: 25px 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -148,20 +159,23 @@ const SearchContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  max-width: 300px;
+  max-width: 200px;
 `;
 
 const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
+  width: 90%;
+  margin-left: 25px;
+  a {
+    text-decoration: none;
+  }
 `;
 
 const SearchInput = styled.input`
   width: 100%;
   padding: 8px;
   font-size: 18px;
-  border: 10px;
   background: #fff;
   border-radius: 4px;
   &::placeholder {
@@ -203,4 +217,8 @@ const Cell = styled.div`
   display: flex;
   width: 100%;
   max-width: 300px;
+`;
+
+const ListTitle = styled.span`
+  font-size: 38px;
 `;

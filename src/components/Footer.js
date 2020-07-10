@@ -21,6 +21,9 @@ const FooterContainer = styled.footer`
   bottom: 0;
   width: 100vw;
   height: 50px;
+  a {
+    text-decoration: none;
+  }
 `;
 
 const FooterText = styled.strong`

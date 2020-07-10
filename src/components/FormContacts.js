@@ -1,12 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { createContact } from "../actions/companyAction";
 import styled from "styled-components";
 
-export default function FormContact() {
-  useEffect(() => {}, []);
+export default function FormContact(props) {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const dispatch = useDispatch();
+  const companyState = useSelector((state) => state.companyReducer);
+  const { loading } = companyState;
+
+  useEffect(() => {
+    console.log(props.company);
+    if (props.company) {
+      setNome(props.company.NAME);
+      setTelefone(props.company.PHONE[0].VALUE);
+      setEmail(props.company.EMAIL[0].VALUE);
+    }
+  }, []);
+
+  const submit = () => {
+    const id = props.company.ID;
+    dispatch(createContact({ id, nome, telefone, email }));
+  };
+
   return (
     <Container>
       <Header>
+        <Link to={"/contacts"}>{"<-"}</Link>
+
         <Title>Formulário Contatos</Title>
       </Header>
       <Container>
@@ -17,8 +41,8 @@ export default function FormContact() {
               type="text"
               name="nome"
               id="nome"
-              //   value={empresa}
-              //   onChange={(e) => setEmpresa(e.target.value)}
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
             />
           </Name>
           <InputName>E-mail</InputName>
@@ -27,8 +51,8 @@ export default function FormContact() {
               type="text"
               name="email"
               id="email"
-              //   value={email}
-              //   onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Name>
           <InputName>Telefone</InputName>
@@ -37,15 +61,12 @@ export default function FormContact() {
               type="text"
               name="telefone"
               id="telefone"
-              //   value={telefone}
-              //   onChange={(e) => setTelefone(e.target.value)}
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
             />
           </Name>
           <BtnContainer>
-            <Btn
-              type="button"
-              //   onClick={handleSave}
-            >
+            <Btn type="button" onClick={submit}>
               Salvar
             </Btn>
           </BtnContainer>

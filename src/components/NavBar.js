@@ -26,6 +26,12 @@ const Nav = styled.nav`
   align-items: center;
   width: 100vw;
   height: 60px;
+  a {
+    text-decoration: none !important;
+  }
+  a:visited {
+    text-decoration: none !important;
+  }
 `;
 
 const Logo = styled.h1`
@@ -35,6 +41,9 @@ const Logo = styled.h1`
   text-transform: uppercase;
   text-align: center;
   display: block;
+  a:visited {
+    text-decoration: none;
+  }
 `;
 
 const MainNav = styled.ul`

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AppContainer from "../components/AppContainer";
-import FormContacts from "../components/FormContacts";
+import ListCompanies from "../components/ListCompanies";
 
-export default function FormContactScreen(props) {
+export default function ListCompaniesScreen() {
   return (
     <AppContainer>
-      <FormContacts contact={props.location.state} />
+      <ListCompanies />
     </AppContainer>
   );
 }

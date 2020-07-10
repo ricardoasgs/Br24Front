@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getCompanyById, createCompany } from "../actions/companyAction";
+import { Link } from "react-router-dom";
 
 export default function FormCompany(props) {
   const [empresa, setEmpresa] = useState("");
@@ -31,6 +32,7 @@ export default function FormCompany(props) {
   return (
     <Container>
       <Header>
+        <Link to={"/companies"}>{"<-"}</Link>
         <Title>Formulário Empresa</Title>
       </Header>
       <Container>
@@ -112,7 +114,8 @@ const Header = styled.header`
   padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px 100px;
 `;
 
 const Title = styled.span`

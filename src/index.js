@@ -8,7 +8,8 @@ import { ToastContainer } from "react-toastify";
 import store from "./config/store";
 
 import AppLayout from "./components/AppLayout";
-import HomeScreen from "./views/HomeScreen";
+import ListCompaniesScreen from "./views/ListCompaniesScreen";
+import ListContactsScreen from "./views/ListContactsScreen";
 import FormCompanyScreen from "./views/FormCompanyScreen";
 import FormContactScreen from "./views/FormContactScreen";
 
@@ -16,9 +17,10 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <AppLayout>
-        <Route exact path="/" component={HomeScreen} />
-        <Route exact path="/company" component={FormCompanyScreen} />
-        <Route exact path="/contact" component={FormContactScreen} />
+        <Route exact path="/companies" component={ListCompaniesScreen} />
+        <Route exact path="/contacts" component={ListContactsScreen} />
+        <Route exact path="/createCompany" component={FormCompanyScreen} />
+        <Route exact path="/createContact" component={FormContactScreen} />
         <ToastContainer />
       </AppLayout>
     </Router>

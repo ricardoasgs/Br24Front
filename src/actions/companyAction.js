@@ -15,6 +15,12 @@ import {
   UPDATING_COMPANY,
   UPDATE_COMPANY_ERROR,
   UPDATE_COMPANY_SUCCESS,
+  FETCHING_CONTACTS,
+  FETCH_CONTACTS_SUCCESS,
+  FETCH_CONTACTS_ERROR,
+  CREATING_CONTACT,
+  CREATE_CONTACT_SUCCESS,
+  CREATE_CONTACT_ERROR,
 } from "./types.js";
 import { toast } from "react-toastify";
 import { API_URL } from "../config/constants";
@@ -27,7 +33,7 @@ export function getCompany() {
     axios
       .get(`${API_URL}/getCompany.php`)
       .then((response) => {
-        console.log(response.data.result);
+        // console.log(response.data.result);
         dispatch({
           type: FETCH_COMPANIES_SUCCESS,
           payload: response.data.result,
@@ -52,7 +58,7 @@ export function getCompanyById(id) {
     axios
       .get(`${API_URL}/getCompanyById.php?id=${id}`)
       .then((response) => {
-        console.log(response.data.result);
+        // console.log(response.data.result);
         dispatch({
           type: FETCH_COMPANY_SUCCESS,
           payload: response.data.result,
@@ -70,7 +76,6 @@ export function getCompanyById(id) {
 }
 
 export function createCompany(company) {
-  console.log(company);
   return function (dispatch) {
     dispatch({
       type: CREATING_COMPANY,
@@ -79,7 +84,7 @@ export function createCompany(company) {
       .post(`${API_URL}/createCompany.php`, company)
       .then((response) => {
         toast.sucess(response.data);
-        console.log(response);
+        // console.log(response);
         dispatch({
           type: CREATE_COMPANY_SUCCESS,
           payload: response.data.result,
@@ -97,7 +102,6 @@ export function createCompany(company) {
 }
 
 export function deleteCompany(id) {
-  console.log(id);
   return function (dispatch) {
     dispatch({
       type: DELETING_COMPANY,
@@ -105,7 +109,7 @@ export function deleteCompany(id) {
     axios
       .delete(`${API_URL}/deleteCompany.php`, { data: { id } })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         dispatch({
           type: DELETE_COMPANY_SUCCESS,
           payload: response.data,
@@ -130,7 +134,7 @@ export function updateCompany(company) {
     axios
       .put(`${API_URL}/updateCompany`, company)
       .then((response) => {
-        console.log(response.data.result);
+        // console.log(response.data.result);
         dispatch({
           type: UPDATE_COMPANY_SUCCESS,
           payload: response.data.result,
@@ -140,6 +144,56 @@ export function updateCompany(company) {
         console.log(error);
         dispatch({
           type: UPDATE_COMPANY_ERROR,
+          payload: error,
+        });
+        toast.error(error.response);
+      });
+  };
+}
+
+export function getContactById(id) {
+  return function (dispatch) {
+    dispatch({
+      type: FETCHING_CONTACTS,
+    });
+    axios
+      .get(`${API_URL}/getContactById.php?id=${id}`)
+      .then((response) => {
+        // console.log(response.data.result);
+        dispatch({
+          type: FETCH_CONTACTS_SUCCESS,
+          payload: response.data.result,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: FETCH_CONTACTS_ERROR,
+          payload: error,
+        });
+        toast.error(error.response);
+      });
+  };
+}
+
+export function createContact(contact) {
+  return function (dispatch) {
+    dispatch({
+      type: CREATING_CONTACT,
+    });
+    axios
+      .post(`${API_URL}/createContact.php`, contact)
+      .then((response) => {
+        // console.log(response.data.result);
+        dispatch({
+          type: CREATE_CONTACT_SUCCESS,
+          payload: response.data.result,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: CREATE_CONTACT_ERROR,
           payload: error,
         });
         toast.error(error.response);
