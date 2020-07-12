@@ -20,11 +20,11 @@ export default function ListDeals(props) {
     } else {
       history.push("/companies");
     }
-  }, []);
+  }, [dispatch, props]);
 
   useEffect(() => {
     dispatch(getDealById(props.company.ID));
-  }, [delet]);
+  }, [dispatch, props, delet]);
 
   const renderRows = () => {
     return deals.map((deal) => (

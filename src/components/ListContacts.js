@@ -20,11 +20,11 @@ export default function ListContacts(props) {
     } else {
       history.push("/companies");
     }
-  }, []);
+  }, [dispatch, props]);
 
   useEffect(() => {
     dispatch(getContactById(props.company.ID));
-  }, [delet]);
+  }, [dispatch, props, delet]);
 
   const renderRows = () => {
     return contacts.map((contact) => (
@@ -126,4 +126,5 @@ const ActionsCell = styled.div`
 
 const Trash = styled(FaTrash)`
   cursor: pointer;
+  width: 25%;
 `;

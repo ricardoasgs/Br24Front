@@ -25,8 +25,8 @@ export default function FormContact(props) {
   const submit = () => {
     console.log(props.company);
     const id = props.company.ID;
-    const idContato = props.contact.ID;
     if (editMode) {
+      const idContato = props?.contact.ID;
       dispatch(
         updateContact({ idContato, id, nome, telefone, email }, () => {
           history.goBack();

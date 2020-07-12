@@ -19,11 +19,11 @@ export default function ListCompanies(props) {
 
   useEffect(() => {
     dispatch(getCompany());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getCompany());
-  }, [delet]);
+  }, [dispatch, delet]);
 
   const renderRows = () => {
     return companies.map((company) => (
