@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createContact } from "../actions/companyAction";
+import { createContact } from "../actions/contactAction";
 import styled from "styled-components";
+import { FaArrowLeft } from "react-icons/fa";
+import history from "../config/helper";
 
 export default function FormContact(props) {
   const [nome, setNome] = useState("");
@@ -13,25 +15,33 @@ export default function FormContact(props) {
   const { loading } = companyState;
 
   useEffect(() => {
-    console.log(props.company);
-    if (props.company) {
-      setNome(props.company.NAME);
-      setTelefone(props.company.PHONE[0].VALUE);
-      setEmail(props.company.EMAIL[0].VALUE);
+    console.log(props);
+    if (props.contact) {
+      setNome(props.contact.NAME);
+      setTelefone(props.contact.PHONE[0].VALUE);
+      setEmail(props.contact.EMAIL[0].VALUE);
     }
-  }, []);
+  }, [props]);
 
   const submit = () => {
+    console.log(props.company);
     const id = props.company.ID;
-    dispatch(createContact({ id, nome, telefone, email }));
+    dispatch(
+      createContact({ id, nome, telefone, email }, () => {
+        history.push("/contacts");
+      })
+    );
   };
 
   return (
     <Container>
       <Header>
-        <Link to={"/contacts"}>{"<-"}</Link>
+        <Link to={"/contacts"}>
+          <FaArrowLeft />
+        </Link>
 
         <Title>Formulário Contatos</Title>
+        <div />
       </Header>
       <Container>
         <Article>
@@ -92,7 +102,12 @@ const Header = styled.header`
   padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px 100px;
+  a {
+    text-decoration: none;
+    color: #6c757d;
+  }
 `;
 
 const Title = styled.span`
@@ -152,10 +167,9 @@ const Btn = styled.button`
   font-weight: bold;
 `;
 
-const BtnContainer = styled.header`
+const BtnContainer = styled.div`
   margin-top: 10px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 100px;
+  justify-content: center;
 `;

@@ -4,54 +4,38 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "./Loading";
 import TableComponent from "./TableComponent";
-import { getContactById, deleteContact } from "../actions/contactAction";
-import { FaTrash, FaPencilAlt } from "react-icons/fa";
+import { getDealById } from "../actions/dealAction";
+import { FaTrash } from "react-icons/fa";
 import history from "../config/helper";
+import { deleteDeal } from "../actions/dealAction";
 
-export default function ListContacts(props) {
-  // const [search, setSearch] = useState("");
-  // const [contactFiltered, setContactFiltered] = useState([]);
+export default function ListDeals(props) {
+  //   const [search, setSearch] = useState("");
+  //   const [dealFiltered, setDealFiltered] = useState([]);
   const dispatch = useDispatch();
-  const contactState = useSelector((state) => state.contactReducer);
-  const { contacts, loading } = contactState;
+  const dealState = useSelector((state) => state.dealReducer);
+  const { deals, loading } = dealState;
 
   useEffect(() => {
-    if (props?.company) {
+    if (props.company) {
       console.log(props);
-      dispatch(getContactById(props.company.ID));
+      dispatch(getDealById(props.company.ID));
     } else {
       history.push("/companies");
     }
   }, [dispatch, props]);
 
-  // useEffect(() => {
-  //   const contactsFiltered = contacts.filter((contact) =>
-  //     contact.NAME.toLowerCase().includes(search.toLowerCase())
-  //   );
-  //   setContactFiltered(contactsFiltered);
-  // }, [search, contacts]);
-
   const renderRows = () => {
-    return contacts.map((contact) => (
-      <Rows key={contact.ID}>
-        <Cell>{contact.NAME}</Cell>
-        <Cell>{contact.PHONE[0].VALUE}</Cell>
-        <Cell>{contact.EMAIL[0].VALUE}</Cell>
+    return deals.map((deal) => (
+      <Rows key={deal.ID}>
+        <Cell>{deal.TITLE}</Cell>
+        <Cell>{deal.OPPORTUNITY}</Cell>
         <ActionsCell>
-          <Trash
+          <FaTrash
             onClick={() => {
-              dispatch(deleteContact(contact.ID));
+              dispatch(deleteDeal(deal.ID));
             }}
           />
-
-          <Link
-            to={{
-              pathname: `/createContact`,
-              state: { company: props.company, contact: contact },
-            }}
-          >
-            <FaPencilAlt />
-          </Link>
         </ActionsCell>
       </Rows>
     ));
@@ -63,17 +47,16 @@ export default function ListContacts(props) {
         <Loading />
       ) : (
         <TableComponent
-          title={"Contatos"}
+          title={"Negocios"}
           back={true}
-          model={"Contato"}
-          pathname={"/createContact"}
+          model={"Negocio"}
+          pathname={"/createDeal"}
           state={{ company: props.company }}
         >
           <TableHeader>
-            <ThItem>Nome</ThItem>
-            <ThItem>E-mail</ThItem>
-            <ThItem>Telefone</ThItem>
-            <ThItem>Opções</ThItem>
+            <ThItem>Titulo</ThItem>
+            <ThItem>Valor</ThItem>
+            <ThItem>Opçoes</ThItem>
           </TableHeader>
           {renderRows()}
         </TableComponent>

@@ -5,9 +5,14 @@ import reset from "styled-reset";
 const GlobalStyle = createGlobalStyle`
   ${reset}
   html {
-    height: 100vh
-    width: 100vw
+    height: 100vh;
+    width: 100vw;
+    font-family: "Ubuntu Condensed", sans-serif;
   }
+  button{
+    font-family: "Ubuntu Condensed", sans-serif;
+  }
+  
 `;
 
 export default (props) => {

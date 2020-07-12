@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = (props) => (
   <Nav>
-    <Link to={"/"}>
-      <Logo>Br24</Logo>
-    </Link>
+    <Link to={"/companies"}>Br24</Link>
     {/* <MainNav>
       <NavItem>1</NavItem>
       <NavItem>2</NavItem>
@@ -17,7 +15,7 @@ const NavBar = (props) => (
 
 const Nav = styled.nav`
   display: flex;
-  color: white;
+  color: #fff;
   flex-direction: row;
   background-color: #343a40;
   box-shadow: rgba(31, 53, 78, 0.11) 0 1px;
@@ -27,22 +25,15 @@ const Nav = styled.nav`
   width: 100vw;
   height: 60px;
   a {
-    text-decoration: none !important;
-  }
-  a:visited {
-    text-decoration: none !important;
-  }
-`;
-
-const Logo = styled.h1`
-  margin: 0;
-  font-size: 1.45em;
-  padding: 10px 30px;
-  text-transform: uppercase;
-  text-align: center;
-  display: block;
-  a:visited {
+    margin: 0;
+    font-size: 1.95em;
+    padding: 10px 30px;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    font-family: "Bitter", serif;
     text-decoration: none;
+    color: #fff;
   }
 `;
 

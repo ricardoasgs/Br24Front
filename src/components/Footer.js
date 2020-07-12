@@ -28,6 +28,7 @@ const FooterContainer = styled.footer`
 
 const FooterText = styled.strong`
   font-size: 1em;
+  font-family: "Ubuntu Condensed", sans-serif;
   padding: 10px 15px;
   text-transform: uppercase;
   color: white;
