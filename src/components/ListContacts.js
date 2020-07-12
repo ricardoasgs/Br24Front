@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,8 +9,6 @@ import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import history from "../config/helper";
 
 export default function ListContacts(props) {
-  // const [search, setSearch] = useState("");
-  // const [contactFiltered, setContactFiltered] = useState([]);
   const dispatch = useDispatch();
   const contactState = useSelector((state) => state.contactReducer);
   const { contacts, loading } = contactState;
@@ -23,13 +21,6 @@ export default function ListContacts(props) {
       history.push("/companies");
     }
   }, [dispatch, props]);
-
-  // useEffect(() => {
-  //   const contactsFiltered = contacts.filter((contact) =>
-  //     contact.NAME.toLowerCase().includes(search.toLowerCase())
-  //   );
-  //   setContactFiltered(contactsFiltered);
-  // }, [search, contacts]);
 
   const renderRows = () => {
     return contacts.map((contact) => (

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 export default function TableComponent(props) {
   const { pathname, state } = props;
-  // const [search, setSearch] = useState("");
   console.log(props);
   return (
     <Container>
@@ -19,20 +18,9 @@ export default function TableComponent(props) {
             <div></div>
           )}
           <ListTitle>{props.title}</ListTitle>
-          {/* <SearchContainer>
-            <SearchInput
-              type="text"
-              placeholder="Pesquisar"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-            />
-          </SearchContainer> */}
           <div />
         </Header>
         {props.children}
-        {/* {React.cloneElement(this.props.children, search)} */}
         <TableFooter>
           <div />
           <div />
@@ -90,25 +78,6 @@ const Header = styled.div`
   a {
     color: #363636;
     text-decoration: none;
-  }
-`;
-
-const SearchContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  max-width: 200px;
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  font-size: 18px;
-  background: #fff;
-  border-radius: 4px;
-  &::placeholder {
-    text-align: center;
-    color: black;
   }
 `;
 

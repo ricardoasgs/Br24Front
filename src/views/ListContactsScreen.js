@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import AppContainer from "../components/AppContainer";
 import ListContacts from "../components/ListContacts";
 

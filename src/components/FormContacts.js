@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { createContact } from "../actions/contactAction";
 import styled from "styled-components";
@@ -11,8 +11,6 @@ export default function FormContact(props) {
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
   const dispatch = useDispatch();
-  const companyState = useSelector((state) => state.companyReducer);
-  const { loading } = companyState;
 
   useEffect(() => {
     console.log(props);

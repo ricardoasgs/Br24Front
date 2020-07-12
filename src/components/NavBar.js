@@ -5,11 +5,6 @@ import { Link } from "react-router-dom";
 const NavBar = (props) => (
   <Nav>
     <Link to={"/companies"}>Br24</Link>
-    {/* <MainNav>
-      <NavItem>1</NavItem>
-      <NavItem>2</NavItem>
-      <NavItem>3</NavItem>
-    </MainNav> */}
   </Nav>
 );
 
@@ -35,27 +30,6 @@ const Nav = styled.nav`
     text-decoration: none;
     color: #fff;
   }
-`;
-
-const MainNav = styled.ul`
-  display: flex;
-  flex-direction: row;
-  margin-top: 5px;
-  list-style: none;
-  color: white;
-  font-size: 0.99em;
-  padding: 10px 30px;
-  text-transform: uppercase;
-  text-align: center;
-`;
-
-const NavItem = styled.li`
-  margin: 0;
-  font-size: 1.25em;
-  padding: 10px 30px;
-  text-transform: uppercase;
-  text-align: center;
-  display: block;
 `;
 
 export default NavBar;

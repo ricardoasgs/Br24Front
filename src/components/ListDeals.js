@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "./Loading";
@@ -10,8 +9,6 @@ import history from "../config/helper";
 import { deleteDeal } from "../actions/dealAction";
 
 export default function ListDeals(props) {
-  //   const [search, setSearch] = useState("");
-  //   const [dealFiltered, setDealFiltered] = useState([]);
   const dispatch = useDispatch();
   const dealState = useSelector((state) => state.dealReducer);
   const { deals, loading } = dealState;
@@ -110,8 +107,4 @@ const ActionsCell = styled.div`
     text-decoration: none;
     color: #6c757d;
   }
-`;
-
-const Trash = styled(FaTrash)`
-  cursor: pointer;
 `;
