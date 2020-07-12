@@ -11,7 +11,7 @@ import { deleteDeal } from "../actions/dealAction";
 export default function ListDeals(props) {
   const dispatch = useDispatch();
   const dealState = useSelector((state) => state.dealReducer);
-  const { deals, loading } = dealState;
+  const { deals, loading, delet } = dealState;
 
   useEffect(() => {
     if (props.company) {
@@ -20,7 +20,11 @@ export default function ListDeals(props) {
     } else {
       history.push("/companies");
     }
-  }, [dispatch, props]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getDealById(props.company.ID));
+  }, [delet]);
 
   const renderRows = () => {
     return deals.map((deal) => (
@@ -28,7 +32,7 @@ export default function ListDeals(props) {
         <Cell>{deal.TITLE}</Cell>
         <Cell>{deal.OPPORTUNITY}</Cell>
         <ActionsCell>
-          <FaTrash
+          <Trash
             onClick={() => {
               dispatch(deleteDeal(deal.ID));
             }}
@@ -107,4 +111,8 @@ const ActionsCell = styled.div`
     text-decoration: none;
     color: #6c757d;
   }
+`;
+
+const Trash = styled(FaTrash)`
+  cursor: pointer;
 `;

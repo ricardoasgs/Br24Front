@@ -18,6 +18,7 @@ const contactInitialState = {
   contact: {},
   loading: false,
   error: "",
+  delet: 0,
 };
 
 const contactReducer = (state = contactInitialState, action) => {
@@ -57,7 +58,6 @@ const contactReducer = (state = contactInitialState, action) => {
     case CREATE_CONTACT_SUCCESS: {
       Object.assign(newState, state, {
         loading: false,
-        contacts: [...state.contacts, action.payload],
       });
 
       return newState;
@@ -102,6 +102,7 @@ const contactReducer = (state = contactInitialState, action) => {
     case DELETE_CONTACT_SUCCESS: {
       Object.assign(newState, state, {
         loading: false,
+        delet: Math.random(),
       });
 
       return newState;

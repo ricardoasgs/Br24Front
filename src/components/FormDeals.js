@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { createDeal } from "../actions/dealAction";
 import styled from "styled-components";
 import { FaArrowLeft } from "react-icons/fa";
@@ -16,7 +15,7 @@ export default function FormContact(props) {
     const idEmpresa = props.company.ID;
     dispatch(
       createDeal({ idEmpresa, titulo, valor }, () => {
-        history.push("/contacts");
+        history.goBack();
       })
     );
   };
@@ -24,10 +23,11 @@ export default function FormContact(props) {
   return (
     <Container>
       <Header>
-        <Link to={"/deals"}>
-          <FaArrowLeft />
-        </Link>
-
+        <ArrowLeft
+          onClick={() => {
+            history.goBack();
+          }}
+        />
         <Title>Formulário Negocios</Title>
         <div />
       </Header>
@@ -150,4 +150,8 @@ const BtnContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const ArrowLeft = styled(FaArrowLeft)`
+  cursor: pointer;
 `;

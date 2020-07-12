@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 export default function TableComponent(props) {
   const { pathname, state } = props;
   console.log(props);
+
   return (
     <Container>
       <Table>

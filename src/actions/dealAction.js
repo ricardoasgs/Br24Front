@@ -38,7 +38,7 @@ export function getDealById(id) {
   };
 }
 
-export function createDeal(deal) {
+export function createDeal(deal, callback) {
   return function (dispatch) {
     dispatch({
       type: CREATING_DEAL,
@@ -52,6 +52,7 @@ export function createDeal(deal) {
           type: CREATE_DEAL_SUCCESS,
           payload: response.data.result,
         });
+        callback();
       })
       .catch((error) => {
         console.log(error);

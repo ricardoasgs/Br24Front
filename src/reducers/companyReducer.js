@@ -21,7 +21,7 @@ const companyInitialState = {
   company: {},
   loading: false,
   error: "",
-  delet: false,
+  delet: 0,
 };
 
 const companyReducer = (state = companyInitialState, action) => {
@@ -84,7 +84,6 @@ const companyReducer = (state = companyInitialState, action) => {
     case CREATE_COMPANY_SUCCESS: {
       Object.assign(newState, state, {
         loading: false,
-        companies: [...state.companies, action.payload],
       });
 
       return newState;
@@ -129,7 +128,7 @@ const companyReducer = (state = companyInitialState, action) => {
     case DELETE_COMPANY_SUCCESS: {
       Object.assign(newState, state, {
         loading: false,
-        delet: true,
+        delet: Math.random(),
       });
 
       return newState;

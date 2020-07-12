@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { createContact } from "../actions/contactAction";
+import { createContact, updateContact } from "../actions/contactAction";
 import styled from "styled-components";
 import { FaArrowLeft } from "react-icons/fa";
 import history from "../config/helper";
@@ -10,6 +9,7 @@ export default function FormContact(props) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [editMode, setEditMode] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,26 +18,37 @@ export default function FormContact(props) {
       setNome(props.contact.NAME);
       setTelefone(props.contact.PHONE[0].VALUE);
       setEmail(props.contact.EMAIL[0].VALUE);
+      setEditMode(true);
     }
   }, [props]);
 
   const submit = () => {
     console.log(props.company);
     const id = props.company.ID;
-    dispatch(
-      createContact({ id, nome, telefone, email }, () => {
-        history.push("/contacts");
-      })
-    );
+    const idContato = props.contact.ID;
+    if (editMode) {
+      dispatch(
+        updateContact({ idContato, id, nome, telefone, email }, () => {
+          history.goBack();
+        })
+      );
+    } else {
+      dispatch(
+        createContact({ id, nome, telefone, email }, () => {
+          history.goBack();
+        })
+      );
+    }
   };
 
   return (
     <Container>
       <Header>
-        <Link to={"/contacts"}>
-          <FaArrowLeft />
-        </Link>
-
+        <ArrowLeft
+          onClick={() => {
+            history.goBack();
+          }}
+        />
         <Title>Formulário Contatos</Title>
         <div />
       </Header>
@@ -170,4 +181,8 @@ const BtnContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const ArrowLeft = styled(FaArrowLeft)`
+  cursor: pointer;
 `;

@@ -18,21 +18,24 @@ export default function ListCompanies(props) {
   const { loading, companies, delet } = companyState;
 
   useEffect(() => {
-    console.log(props);
     dispatch(getCompany());
-  }, [dispatch, props, delet]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCompany());
+  }, [delet]);
 
   const renderRows = () => {
     return companies.map((company) => (
-      <Rows key={company.ID}>
-        <Cell>{company.TITLE}</Cell>
-        <Cell>{company.UF_CRM_1594236296415}</Cell>
-        <Cell>{company.UF_CRM_1594236337871}</Cell>
-        <Cell>{company.EMAIL[0].VALUE}</Cell>
+      <Rows key={company?.ID}>
+        <Cell>{company?.TITLE}</Cell>
+        <Cell>{company?.UF_CRM_1594236296415}</Cell>
+        <Cell>{company?.UF_CRM_1594236337871}</Cell>
+        <Cell>{company?.EMAIL[0].VALUE}</Cell>
         <ActionsCell>
           <Trash
             onClick={() => {
-              dispatch(deleteCompany(company.ID));
+              dispatch(deleteCompany(company?.ID));
             }}
           />
 

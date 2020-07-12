@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import history from "./config/helper";
 import { ToastContainer } from "react-toastify";
@@ -21,6 +21,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <AppLayout>
+        <Route exact path="/" render={() => <Redirect to="/companies" />} />
         <Route exact path="/companies" component={ListCompaniesScreen} />
         <Route exact path="/contacts" component={ListContactsScreen} />
         <Route exact path="/deals" component={ListDealsScreen} />

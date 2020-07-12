@@ -105,6 +105,7 @@ export function deleteCompany(id) {
       .delete(`${API_URL}/deleteCompany.php`, { data: { id } })
       .then((response) => {
         // console.log(response);
+        toast.success(response.data);
         dispatch({
           type: DELETE_COMPANY_SUCCESS,
           payload: response.data,

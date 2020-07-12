@@ -5,7 +5,7 @@ import styled from "styled-components";
 const Loading = () => {
   return (
     <LoadingContainer>
-      <ReactLoading type={"spin"} color="#fff" height={300} width={300} />
+      <ReactLoading type={"spin"} color="#fff" height={200} width={200} />
     </LoadingContainer>
   );
 };

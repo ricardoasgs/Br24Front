@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { createCompany } from "../actions/companyAction";
-import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import history from "../config/helper";
 
@@ -36,9 +35,12 @@ export default function FormCompany(props) {
   return (
     <Container>
       <Header>
-        <Link to={"/companies"}>
-          <FaArrowLeft />
-        </Link>
+        <ArrowLeft
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+
         <Title>Formulário Empresa</Title>
         <div />
       </Header>
@@ -191,4 +193,8 @@ const BtnContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const ArrowLeft = styled(FaArrowLeft)`
+  cursor: pointer;
 `;

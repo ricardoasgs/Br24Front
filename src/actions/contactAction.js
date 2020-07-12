@@ -41,7 +41,7 @@ export function getContactById(id) {
   };
 }
 
-export function createContact(contact) {
+export function createContact(contact, callback) {
   return function (dispatch) {
     dispatch({
       type: CREATING_CONTACT,
@@ -55,6 +55,7 @@ export function createContact(contact) {
           type: CREATE_CONTACT_SUCCESS,
           payload: response.data.result,
         });
+        callback();
       })
       .catch((error) => {
         console.log(error);
@@ -67,7 +68,7 @@ export function createContact(contact) {
   };
 }
 
-export function updateContact(contact) {
+export function updateContact(contact, callback) {
   return function (dispatch) {
     dispatch({
       type: UPDATING_CONTACT,
@@ -81,6 +82,7 @@ export function updateContact(contact) {
           type: UPDATE_CONTACT_SUCCESS,
           payload: response.data.result,
         });
+        callback();
       })
       .catch((error) => {
         console.log(error);
